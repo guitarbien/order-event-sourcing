@@ -2,6 +2,8 @@
 
 namespace App\Exceptions;
 
+use App\Http\Resources\CustomResource;
+use DomainException;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -46,6 +48,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof DomainException) {
+            return response()->json([
+                'status' => 'not ok',
+                'code' => $exception->getCode(),
+                'message' => $exception->getMessage(),
+            ], 422);
+        }
+
         return parent::render($request, $exception);
     }
 }
