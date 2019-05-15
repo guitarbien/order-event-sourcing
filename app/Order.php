@@ -44,10 +44,53 @@ use Illuminate\Support\Carbon;
  */
 class Order extends Model
 {
-    protected $fillable = [
-        'id',
-        'contact_name',
-        'contact_address',
-        'contact_mobile',
+    protected $guarded = [];
+
+    public $incrementing = false;
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'picked_at',
+        'prepared_at',
+        'delivered_at',
+        'arrived_at',
     ];
+
+    public static function uuid(string $aggregateUuid): Order
+    {
+        return Order::find($aggregateUuid);
+    }
+
+    public function pickedAt(string $pickedAt)
+    {
+        $this->picked    = true;
+        $this->picked_at = $pickedAt;
+
+        $this->save();
+    }
+
+    public function preparedAt(string $preparedAt)
+    {
+        $this->prepared    = true;
+        $this->prepared_at = $preparedAt;
+
+        $this->save();
+    }
+
+    public function deliveredAt(string $deliveredAt)
+    {
+        $this->delivered    = true;
+        $this->delivered_at = $deliveredAt;
+
+        $this->save();
+    }
+
+    public function arrivedAt(string $arrivedAt)
+    {
+        $this->arrived    = true;
+        $this->arrived_at = $arrivedAt;
+
+        $this->save();
+    }
 }

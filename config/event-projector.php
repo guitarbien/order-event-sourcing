@@ -16,7 +16,7 @@ return [
      * Projectors can be registered in this array or a service provider.
      */
     'projectors' => [
-        App\Projectors\OrderCreateProjector::class,
+        App\Projectors\OrderProjector::class,
     ],
 
     /*
