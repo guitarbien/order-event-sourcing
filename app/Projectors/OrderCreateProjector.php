@@ -15,8 +15,9 @@ final class OrderCreateProjector implements Projector
     {
         Order::create([
             'id'              => $event->orderUuid,
-            'contact_name'    => $event->orderAttributes['contact_name'],
-            'contact_address' => $event->orderAttributes['contact_address'],
+            'contact_name'    => $event->contactName,
+            'contact_address' => $event->contactAddress,
+            'contact_mobile'  => $event->contactMobile,
         ]);
     }
 }

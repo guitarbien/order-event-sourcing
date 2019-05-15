@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Aggregates\OrderAggregateRoot;
 use App\Http\Resources\CustomResource;
-use App\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -16,8 +17,20 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        Order::createWithAttributes($request->all());
+        $orderUuid = (string) Str::uuid();
 
-        return new CustomResource(['status' => 'ok']);
+        OrderAggregateRoot::retrieve($orderUuid)
+                          ->createOrder(
+                              $orderUuid,
+                              $request->get('contact_name'),
+                              $request->get('contact_address'),
+                              $request->get('contact_mobile')
+                          )
+                          ->persist();
+
+        return new CustomResource([
+            'status'    => 'ok',
+            'orderUuid' => $orderUuid,
+        ]);
     }
 }
