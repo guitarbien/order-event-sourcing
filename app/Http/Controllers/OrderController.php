@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 
+/**
+ * Class OrderController
+ * @package App\Http\Controllers
+ */
 class OrderController extends Controller
 {
     /** @var array */
@@ -19,11 +23,19 @@ class OrderController extends Controller
         'arrived'   => 'arriveOrder',
     ];
 
+    /**
+     * @return JsonResource
+     */
     public function index(): JsonResource
     {
         return new CustomResource(['status' => 'ok']);
     }
 
+    /**
+     * @uses OrderAggregateRoot::createOrder()
+     * @param Request $request
+     * @return CustomResource
+     */
     public function store(Request $request)
     {
         $orderUuid = (string) Str::uuid();
@@ -43,6 +55,15 @@ class OrderController extends Controller
         ]);
     }
 
+    /**
+     * @uses OrderAggregateRoot::pickOrder()
+     * @uses OrderAggregateRoot::prepareOrder()
+     * @uses OrderAggregateRoot::deliverOrder()
+     * @uses OrderAggregateRoot::arriveOrder()
+     * @param Order $order
+     * @param Request $request
+     * @return CustomResource
+     */
     public function update(Order $order, Request $request)
     {
         $action = $request->get('action');

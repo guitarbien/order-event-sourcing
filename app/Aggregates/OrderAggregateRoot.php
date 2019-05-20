@@ -29,13 +29,29 @@ final class OrderAggregateRoot extends AggregateRoot
     /** @var bool */
     private $arrived;
 
-    public function createOrder(string $orderUuid, string $contactName, string $contactAddress, string $contactMobile): OrderAggregateRoot
-    {
+    /**
+     * @param string $orderUuid
+     * @param string $contactName
+     * @param string $contactAddress
+     * @param string $contactMobile
+     * @return OrderAggregateRoot
+     */
+    public function createOrder(
+        string $orderUuid,
+        string $contactName,
+        string $contactAddress,
+        string $contactMobile
+    ): OrderAggregateRoot {
         $this->recordThat(new OrderCreated($orderUuid, $contactName, $contactAddress, $contactMobile));
 
         return $this;
     }
 
+    /**
+     * @param string $timestamp
+     * @return OrderAggregateRoot
+     * @uses OrderAggregateRoot::applyOrderPicked()
+     */
     public function pickOrder(string $timestamp): OrderAggregateRoot
     {
         if ($this->picked) {
@@ -52,6 +68,11 @@ final class OrderAggregateRoot extends AggregateRoot
         $this->picked = true;
     }
 
+    /**
+     * @param string $timestamp
+     * @return OrderAggregateRoot
+     * @uses OrderAggregateRoot::applyOrderPrepared()
+     */
     public function prepareOrder(string $timestamp): OrderAggregateRoot
     {
         if (!$this->picked) {
@@ -72,6 +93,11 @@ final class OrderAggregateRoot extends AggregateRoot
         $this->prepared = true;
     }
 
+    /**
+     * @param string $timestamp
+     * @return OrderAggregateRoot
+     * @uses OrderAggregateRoot::applyOrderDelivered()
+     */
     public function deliverOrder(string $timestamp): OrderAggregateRoot
     {
         if (!$this->prepared) {
@@ -92,6 +118,11 @@ final class OrderAggregateRoot extends AggregateRoot
         $this->delivered = true;
     }
 
+    /**
+     * @param string $timestamp
+     * @return OrderAggregateRoot
+     * @uses OrderAggregateRoot::applyOrderArrived()
+     */
     public function arriveOrder(string $timestamp): OrderAggregateRoot
     {
         if (!$this->delivered) {
