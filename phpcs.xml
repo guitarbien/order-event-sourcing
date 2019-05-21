@@ -8,4 +8,6 @@
     <exclude-pattern>database/</exclude-pattern>
     <exclude-pattern>storage/</exclude-pattern>
     <exclude-pattern>node_modules/</exclude-pattern>
+    <exclude-pattern>_ide_helper.php</exclude-pattern>
+    <exclude-pattern>.phpstorm.meta.php</exclude-pattern>
 </ruleset>
