@@ -3,20 +3,31 @@
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext implements Context
+class FeatureContext extends TestCase implements Context
 {
+    use RefreshDatabase;
+
     /**
-     * Initializes context.
-     *
-     * Every scenario gets its own context instance.
-     * You can also pass arbitrary arguments to the
-     * context constructor through behat.yml.
+     * @BeforeScenario
      */
-    public function __construct()
+    public function before()
     {
+        putenv('DB_CONNECTION=sqlite');
+        putenv('DB_DATABASE=:memory:');
+        $this->setUp();
+    }
+
+    /**
+     * @AfterScenario
+     */
+    public function after()
+    {
+        $this->tearDown();
     }
 }
