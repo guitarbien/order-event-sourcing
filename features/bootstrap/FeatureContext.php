@@ -5,6 +5,7 @@ use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\TestResponse;
 use Tests\TestCase;
 
 /**
@@ -13,6 +14,15 @@ use Tests\TestCase;
 class FeatureContext extends TestCase implements Context
 {
     use RefreshDatabase;
+
+    /** @var string */
+    private $apiUrl = '';
+
+    /** @var array */
+    private $apiBody = [];
+
+    /** @var TestResponse */
+    private $response;
 
     /**
      * @BeforeScenario
@@ -38,7 +48,7 @@ class FeatureContext extends TestCase implements Context
      */
     public function apiUrl(string $apiUrl)
     {
-        throw new PendingException();
+        $this->apiUrl = $apiUrl;
     }
 
     /**
@@ -47,7 +57,7 @@ class FeatureContext extends TestCase implements Context
      */
     public function apiBody(TableNode $table)
     {
-        throw new PendingException();
+        $this->apiBody = $table->getHash()[0];
     }
 
     /**
@@ -56,7 +66,7 @@ class FeatureContext extends TestCase implements Context
      */
     public function request(string $method)
     {
-        throw new PendingException();
+        $this->response = $this->json($method, $this->apiUrl, $this->apiBody);
     }
 
     /**
@@ -65,7 +75,7 @@ class FeatureContext extends TestCase implements Context
      */
     public function assertStatus(int $statusCode)
     {
-        throw new PendingException();
+        $this->response->assertStatus($statusCode);
     }
 
     /**
@@ -75,6 +85,6 @@ class FeatureContext extends TestCase implements Context
      */
     public function assertTableRecordExisted(string $tableName, TableNode $table)
     {
-        throw new PendingException();
+        $this->assertDatabaseHas($tableName, $table->getHash()[0]);
     }
 }
