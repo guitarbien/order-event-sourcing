@@ -1,5 +1,7 @@
 <?php
 
+use App\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 /*
@@ -17,9 +19,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('api')->get('/users/{user}', function (App\User $user) {
+    return new JsonResponse([
+        'id'    => $user->id,
+        'name'  => $user->name,
+        'email' => $user->email,
+    ], 200);
+});
+
 Route::middleware('api')->post('/users', function (Request $request) {
-    \App\User::create($request->all());
-    return new \Illuminate\Http\JsonResponse([], 201);
+    User::create($request->all());
+    return new JsonResponse([], 201);
 });
 
 Route::resource('orders', OrderController::class);

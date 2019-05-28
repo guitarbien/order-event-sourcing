@@ -4,3 +4,4 @@ default:
       contexts:
         - ApiFeatureContext
         - DatabaseAssertionContext
+        - ModelFactoryContext

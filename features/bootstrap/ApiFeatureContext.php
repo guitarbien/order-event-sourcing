@@ -58,4 +58,13 @@ class ApiFeatureContext extends FeatureContext
     {
         $this->response->assertStatus($statusCode);
     }
+
+    /**
+     * @Then 可以得到Json回傳值
+     * @param TableNode $table
+     */
+    public function assertJsonResponse(TableNode $table)
+    {
+        $this->response->assertJson($table->getHash()[0]);
+    }
 }
