@@ -22,17 +22,16 @@ final class OrderDeliveredReactor implements EventHandler
 
     /**
      * @param OrderDelivered $event
-     * @param string $storedEvent
+     * @param string $aggregateUuid
      */
-    public function onOrderDelivered(OrderDelivered $event, string $storedEvent)
+    public function onOrderDelivered(OrderDelivered $event, string $aggregateUuid)
     {
-        $uuid = json_decode($storedEvent, true)['aggregate_uuid'];
 
-        $order = Order::find($uuid);
+        $order = Order::find($aggregateUuid);
 
         Log::info(vsprintf('Hi %s, your order %s was delivered at: %s', [
             $order->contact_name,
-            $uuid,
+            $aggregateUuid,
             $event->deliveredAt
         ]));
     }
