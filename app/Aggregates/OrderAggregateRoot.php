@@ -8,6 +8,7 @@ use App\Events\OrderDelivered;
 use App\Events\OrderPicked;
 use App\Events\OrderPrepared;
 use App\Exceptions\CouldNotChangeStatus;
+use App\Projectors\OrderProjector;
 use Spatie\EventProjector\AggregateRoot;
 
 /**
@@ -35,6 +36,7 @@ final class OrderAggregateRoot extends AggregateRoot
      * @param string $contactAddress
      * @param string $contactMobile
      * @return OrderAggregateRoot
+     * @uses OrderProjector::onOrderCreated()
      */
     public function createOrder(
         string $orderUuid,
@@ -51,6 +53,7 @@ final class OrderAggregateRoot extends AggregateRoot
      * @param string $timestamp
      * @return OrderAggregateRoot
      * @uses OrderAggregateRoot::applyOrderPicked()
+     * @uses OrderProjector::onOrderPicked()
      */
     public function pickOrder(string $timestamp): OrderAggregateRoot
     {
@@ -72,6 +75,7 @@ final class OrderAggregateRoot extends AggregateRoot
      * @param string $timestamp
      * @return OrderAggregateRoot
      * @uses OrderAggregateRoot::applyOrderPrepared()
+     * @uses OrderProjector::onOrderPrepared()
      */
     public function prepareOrder(string $timestamp): OrderAggregateRoot
     {
@@ -97,6 +101,7 @@ final class OrderAggregateRoot extends AggregateRoot
      * @param string $timestamp
      * @return OrderAggregateRoot
      * @uses OrderAggregateRoot::applyOrderDelivered()
+     * @uses OrderProjector::onOrderDelivered()
      */
     public function deliverOrder(string $timestamp): OrderAggregateRoot
     {
@@ -122,6 +127,7 @@ final class OrderAggregateRoot extends AggregateRoot
      * @param string $timestamp
      * @return OrderAggregateRoot
      * @uses OrderAggregateRoot::applyOrderArrived()
+     * @uses OrderProjector::onOrderArrived()
      */
     public function arriveOrder(string $timestamp): OrderAggregateRoot
     {

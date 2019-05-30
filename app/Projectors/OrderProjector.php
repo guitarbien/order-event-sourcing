@@ -11,10 +11,17 @@ use App\Order;
 use Spatie\EventProjector\Projectors\Projector;
 use Spatie\EventProjector\Projectors\ProjectsEvents;
 
+/**
+ * Class OrderProjector
+ * @package App\Projectors
+ */
 final class OrderProjector implements Projector
 {
     use ProjectsEvents;
 
+    /**
+     * @param OrderCreated $event
+     */
     public function onOrderCreated(OrderCreated $event)
     {
         Order::create([
@@ -25,24 +32,40 @@ final class OrderProjector implements Projector
         ]);
     }
 
+    /**
+     * @param OrderPicked $event
+     * @param string $aggregateUuid
+     */
     public function onOrderPicked(OrderPicked $event, string $aggregateUuid)
     {
         $order = Order::uuid($aggregateUuid);
         $order->pickedAt($event->pickedAt);
     }
 
+    /**
+     * @param OrderPrepared $event
+     * @param string $aggregateUuid
+     */
     public function onOrderPrepared(OrderPrepared $event, string $aggregateUuid)
     {
         $order = Order::uuid($aggregateUuid);
         $order->preparedAt($event->preparedAt);
     }
 
+    /**
+     * @param OrderDelivered $event
+     * @param string $aggregateUuid
+     */
     public function onOrderDelivered(OrderDelivered $event, string $aggregateUuid)
     {
         $order = Order::uuid($aggregateUuid);
         $order->deliveredAt($event->deliveredAt);
     }
 
+    /**
+     * @param OrderArrived $event
+     * @param string $aggregateUuid
+     */
     public function onOrderArrived(OrderArrived $event, string $aggregateUuid)
     {
         $order = Order::uuid($aggregateUuid);
