@@ -4,6 +4,10 @@ namespace App\Events;
 
 use Spatie\EventProjector\ShouldBeStored;
 
+/**
+ * Class OrderCreated
+ * @package App\Events
+ */
 class OrderCreated implements ShouldBeStored
 {
     /** @var string */

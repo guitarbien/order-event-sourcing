@@ -9,6 +9,7 @@ use App\Events\OrderPicked;
 use App\Events\OrderPrepared;
 use App\Exceptions\CouldNotChangeStatus;
 use App\Projectors\OrderProjector;
+use App\Reactors\OrderDeliveredReactor;
 use Spatie\EventProjector\AggregateRoot;
 
 /**
@@ -102,6 +103,7 @@ final class OrderAggregateRoot extends AggregateRoot
      * @return OrderAggregateRoot
      * @uses OrderAggregateRoot::applyOrderDelivered()
      * @uses OrderProjector::onOrderDelivered()
+     * @uses OrderDeliveredReactor::onOrderDelivered()
      */
     public function deliverOrder(string $timestamp): OrderAggregateRoot
     {
