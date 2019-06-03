@@ -8,14 +8,14 @@ use App\Events\OrderDelivered;
 use App\Events\OrderPicked;
 use App\Events\OrderPrepared;
 use App\Order;
-use Spatie\EventProjector\Projectors\Projector;
 use Spatie\EventProjector\Projectors\ProjectsEvents;
+use Spatie\EventProjector\Projectors\QueuedProjector;
 
 /**
  * Class OrderProjector
  * @package App\Projectors
  */
-final class OrderProjector implements Projector
+final class OrderProjector implements QueuedProjector
 {
     use ProjectsEvents;
 

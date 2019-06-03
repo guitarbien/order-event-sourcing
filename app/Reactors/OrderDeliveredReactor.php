@@ -16,17 +16,12 @@ final class OrderDeliveredReactor implements EventHandler
 {
     use HandlesEvents;
 
-    protected $handlesEvents = [
-        OrderDelivered::class => 'onOrderDelivered',
-    ];
-
     /**
      * @param OrderDelivered $event
      * @param string $aggregateUuid
      */
     public function onOrderDelivered(OrderDelivered $event, string $aggregateUuid)
     {
-
         $order = Order::find($aggregateUuid);
 
         Log::info(vsprintf('Hi %s, your order %s was delivered at: %s', [
