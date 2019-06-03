@@ -1,5 +1,7 @@
 <?php
 
+use Behat\Gherkin\Node\PyStringNode;
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\TableNode;
 use Illuminate\Foundation\Testing\TestResponse;
 
@@ -66,5 +68,14 @@ class ApiFeatureContext extends FeatureContext
     public function assertJsonResponse(TableNode $table)
     {
         $this->response->assertJson($table->getHash()[0]);
+    }
+
+    /**
+     * @Given API JSON資料為
+     * @param PyStringNode $json
+     */
+    public function apiJsonBody(PyStringNode $json)
+    {
+        $this->apiBody = json_decode($json->getRaw(), true);
     }
 }

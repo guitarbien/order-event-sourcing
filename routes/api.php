@@ -32,5 +32,5 @@ Route::middleware('api')->post('/users', function (Request $request) {
     return new JsonResponse([], 201);
 });
 
-Route::resource('orders', OrderController::class);
+Route::resource('orders', 'OrderController');
 // Route::get('transactions', [TransactionsController::class, 'index']);

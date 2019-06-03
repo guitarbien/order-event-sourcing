@@ -9,18 +9,18 @@ use Illuminate\Support\Carbon;
 
 /**
  * App\Order
- * @property int $id order uuid
+ * @property string $id order uuid
  * @property string $contact_name 收件人姓名
  * @property string $contact_address 收件人地址
  * @property string $contact_mobile 收件人手機
  * @property bool $picked 已揀貨
- * @property string|null $picked_at 揀貨時間
+ * @property Carbon|null $picked_at 揀貨時間
  * @property bool $prepared 已理貨
- * @property string|null $prepared_at 理貨時間
+ * @property Carbon|null $prepared_at 理貨時間
  * @property bool $delivered 已出貨
- * @property string|null $delivered_at 出貨時間
+ * @property Carbon|null $delivered_at 出貨時間
  * @property bool $arrived 已配達
- * @property string|null $arrived_at 配達時間
+ * @property Carbon|null $arrived_at 配達時間
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @method static Builder|Order newModelQuery()
@@ -57,11 +57,18 @@ class Order extends Model
         'arrived_at',
     ];
 
+    /**
+     * @param string $aggregateUuid
+     * @return Order
+     */
     public static function uuid(string $aggregateUuid): Order
     {
         return Order::find($aggregateUuid);
     }
 
+    /**
+     * @param string $pickedAt
+     */
     public function pickedAt(string $pickedAt)
     {
         $this->picked    = true;
@@ -70,6 +77,9 @@ class Order extends Model
         $this->save();
     }
 
+    /**
+     * @param string $preparedAt
+     */
     public function preparedAt(string $preparedAt)
     {
         $this->prepared    = true;
@@ -78,6 +88,9 @@ class Order extends Model
         $this->save();
     }
 
+    /**
+     * @param string $deliveredAt
+     */
     public function deliveredAt(string $deliveredAt)
     {
         $this->delivered    = true;
@@ -86,6 +99,9 @@ class Order extends Model
         $this->save();
     }
 
+    /**
+     * @param string $arrivedAt
+     */
     public function arrivedAt(string $arrivedAt)
     {
         $this->arrived    = true;

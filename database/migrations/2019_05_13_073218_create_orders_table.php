@@ -18,6 +18,7 @@ class CreateOrdersTable extends Migration
             $table->string('contact_name')->comment('收件人姓名');
             $table->string('contact_address')->comment('收件人地址');
             $table->string('contact_mobile', 10)->comment('收件人手機');
+            $table->integer('price')->comment('訂單金額');
             $table->boolean('picked')->default(false)->comment('已揀貨');
             $table->timestamp('picked_at')->nullable()->comment('揀貨時間');
             $table->boolean('prepared')->default(false)->comment('已理貨');

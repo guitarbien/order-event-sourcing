@@ -43,9 +43,10 @@ final class OrderAggregateRoot extends AggregateRoot
         string $orderUuid,
         string $contactName,
         string $contactAddress,
-        string $contactMobile
+        string $contactMobile,
+        array $products
     ): OrderAggregateRoot {
-        $this->recordThat(new OrderCreated($orderUuid, $contactName, $contactAddress, $contactMobile));
+        $this->recordThat(new OrderCreated($orderUuid, $contactName, $contactAddress, $contactMobile, $products));
 
         return $this;
     }

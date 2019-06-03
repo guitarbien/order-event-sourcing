@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Aggregates\OrderAggregateRoot;
 use App\Http\Resources\CustomResource;
 use App\Order;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
@@ -32,11 +33,11 @@ class OrderController extends Controller
     }
 
     /**
-     * @uses OrderAggregateRoot::createOrder()
      * @param Request $request
-     * @return CustomResource
+     * @return JsonResponse
+     * @uses OrderAggregateRoot::createOrder()
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $orderUuid = (string) Str::uuid();
 
@@ -45,14 +46,15 @@ class OrderController extends Controller
                               $orderUuid,
                               $request->get('contact_name'),
                               $request->get('contact_address'),
-                              $request->get('contact_mobile')
+                              $request->get('contact_mobile'),
+                              $request->get('products')
                           )
                           ->persist();
 
-        return new CustomResource([
+        return (new CustomResource([
             'status'    => 'ok',
             'orderUuid' => $orderUuid,
-        ]);
+        ]))->response()->setStatusCode(201);
     }
 
     /**
@@ -62,9 +64,9 @@ class OrderController extends Controller
      * @uses OrderAggregateRoot::arriveOrder()
      * @param Order $order
      * @param Request $request
-     * @return CustomResource
+     * @return JsonResponse
      */
-    public function update(Order $order, Request $request)
+    public function update(Order $order, Request $request): JsonResponse
     {
         $action = $request->get('action');
 
@@ -74,6 +76,8 @@ class OrderController extends Controller
                           ->{$actionMethod}($request->get('timestamp'))
                           ->persist();
 
-        return new CustomResource(['status' => 'ok']);
+        return (new CustomResource(['status' => 'ok']))
+            ->response()
+            ->setStatusCode(200);
     }
 }

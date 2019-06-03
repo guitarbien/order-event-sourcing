@@ -22,18 +22,28 @@ class OrderCreated implements ShouldBeStored
     /** @var string */
     public $contactMobile;
 
+    /** @var array */
+    public $products;
+
     /**
      * OrderCreated constructor.
      * @param string $orderUuid
      * @param string $contactName
      * @param string $contactAddress
      * @param string $contactMobile
+     * @param array $products
      */
-    public function __construct(string $orderUuid, string $contactName, string $contactAddress, string $contactMobile)
-    {
+    public function __construct(
+        string $orderUuid,
+        string $contactName,
+        string $contactAddress,
+        string $contactMobile,
+        array $products
+    ) {
         $this->orderUuid      = $orderUuid;
         $this->contactName    = $contactName;
         $this->contactAddress = $contactAddress;
         $this->contactMobile  = $contactMobile;
+        $this->products       = $products;
     }
 }
