@@ -12,4 +12,4 @@
     那麼 回傳狀態應為 201
     而且 資料表 "orders" 應有資料
       | contact_name | contact_address | contact_mobile | price |
-      | John Doe     | my address      | 0912345678     | 1487  |
+      | John Doe     | my address      | 0912345678     | 1937  |
