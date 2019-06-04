@@ -6,7 +6,7 @@
     假定 API 網址為 "/api/orders"
     而且 API JSON資料為
       """
-        {"contact_name":"John Doe","contact_address":"my address","contact_mobile":"0912345678","products":[{"prod_oid":7781,"prod_name":"商品 aaa","qty":2,"price":370},{"prod_oid":7782,"prod_name":"商品 bbb","qty":3,"price":99},{"prod_oid":7783,"prod_name":"商品 ccc","qty":2,"price":450}]}
+        {"contact_name":"John Doe","contact_address":"my address","contact_mobile":"0912345678","products":[{"prod_oid":7781,"prod_name":"product aaa","qty":2,"price":370},{"prod_oid":7782,"prod_name":"product bbb","qty":3,"price":99},{"prod_oid":7783,"prod_name":"product ccc","qty":2,"price":450}]}
       """
     當 以 "POST" 方法要求 API
     那麼 回傳狀態應為 201
