@@ -13,3 +13,8 @@
     而且 資料表 "orders" 應有資料
       | contact_name | contact_address | contact_mobile | price |
       | John Doe     | my address      | 0912345678     | 1937  |
+    而且 資料表 "order_products" 應有資料
+      | id | prod_oid | prod_name   | qty | price_unit | price_sum |
+      | 1  | 7781     | product aaa | 2   | 370        | 740       |
+      | 2  | 7782     | product bbb | 3   | 99         | 297       |
+      | 3  | 7783     | product ccc | 2   | 450        | 900       |

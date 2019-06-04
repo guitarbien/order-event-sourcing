@@ -8,6 +8,8 @@ use App\Events\OrderDelivered;
 use App\Events\OrderPicked;
 use App\Events\OrderPrepared;
 use App\Order;
+use App\OrderProduct;
+use DB;
 use Spatie\EventProjector\Projectors\ProjectsEvents;
 use Spatie\EventProjector\Projectors\QueuedProjector;
 
@@ -24,15 +26,32 @@ final class OrderProjector implements QueuedProjector
      */
     public function onOrderCreated(OrderCreated $event)
     {
-        Order::create([
-            'id'              => $event->orderUuid,
-            'contact_name'    => $event->contactName,
-            'contact_address' => $event->contactAddress,
-            'contact_mobile'  => $event->contactMobile,
-            'price'           => collect($event->products)->sum(function ($item) {
-                return $item['price'] * $item['qty'];
-            }),
-        ]);
+        $orderUuid = $event->orderUuid;
+        $products = collect($event->products)->map(function ($item) use ($orderUuid) {
+            return [
+                'order_id'   => $orderUuid,
+                'prod_oid'   => $item['prod_oid'],
+                'prod_name'  => $item['prod_name'],
+                'qty'        => $item['qty'],
+                'price_unit' => $item['price'],
+                'price_sum'  => $item['price'] * $item['qty'],
+                'created_at' => now(),
+            ];
+        })->all();
+
+        DB::transaction(function () use ($event, $products) {
+            Order::create([
+                'id'              => $event->orderUuid,
+                'contact_name'    => $event->contactName,
+                'contact_address' => $event->contactAddress,
+                'contact_mobile'  => $event->contactMobile,
+                'price'           => collect($event->products)->sum(function ($item) {
+                    return $item['price'] * $item['qty'];
+                }),
+            ]);
+
+            OrderProduct::insert($products);
+        });
     }
 
     /**

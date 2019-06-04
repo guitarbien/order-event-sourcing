@@ -22,7 +22,8 @@ class CreateOrderProductsTable extends Migration
             $table->integer('prod_oid');
             $table->string('prod_name');
             $table->integer('qty');
-            $table->integer('price');
+            $table->integer('price_unit');
+            $table->integer('price_sum');
             $table->timestamps();
         });
     }
