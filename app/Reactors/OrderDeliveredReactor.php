@@ -4,7 +4,7 @@ namespace App\Reactors;
 
 use App\Events\OrderDelivered;
 use App\Order;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Spatie\EventProjector\EventHandlers\EventHandler;
 use Spatie\EventProjector\EventHandlers\HandlesEvents;
 
@@ -24,10 +24,6 @@ final class OrderDeliveredReactor implements EventHandler
     {
         $order = Order::find($aggregateUuid);
 
-        Log::info(vsprintf('Hi %s, your order %s was delivered at: %s', [
-            $order->contact_name,
-            $aggregateUuid,
-            $event->deliveredAt
-        ]));
+        Mail::to($order->contact_email)->send(new \App\Mail\OrderDelivered($order));
     }
 }

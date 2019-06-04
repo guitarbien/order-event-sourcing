@@ -45,6 +45,7 @@ final class OrderProjector implements QueuedProjector
                 'contact_name'    => $event->contactName,
                 'contact_address' => $event->contactAddress,
                 'contact_mobile'  => $event->contactMobile,
+                'contact_email'   => $event->contactEmail,
                 'price'           => collect($event->products)->sum(function ($item) {
                     return $item['price'] * $item['qty'];
                 }),

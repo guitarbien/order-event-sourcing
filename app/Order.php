@@ -13,6 +13,8 @@ use Illuminate\Support\Carbon;
  * @property string $contact_name 收件人姓名
  * @property string $contact_address 收件人地址
  * @property string $contact_mobile 收件人手機
+ * @property string $contact_email 收件人email
+ * @property int $price 訂單金額
  * @property bool $picked 已揀貨
  * @property Carbon|null $picked_at 揀貨時間
  * @property bool $prepared 已理貨
@@ -29,6 +31,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Order whereArrived($value)
  * @method static Builder|Order whereArrivedAt($value)
  * @method static Builder|Order whereContactAddress($value)
+ * @method static Builder|Order whereContactEmail($value)
  * @method static Builder|Order whereContactMobile($value)
  * @method static Builder|Order whereContactName($value)
  * @method static Builder|Order whereCreatedAt($value)
@@ -39,6 +42,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Order wherePickedAt($value)
  * @method static Builder|Order wherePrepared($value)
  * @method static Builder|Order wherePreparedAt($value)
+ * @method static Builder|Order wherePrice($value)
  * @method static Builder|Order whereUpdatedAt($value)
  * @mixin Eloquent
  */

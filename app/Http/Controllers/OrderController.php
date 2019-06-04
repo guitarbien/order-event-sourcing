@@ -47,6 +47,7 @@ class OrderController extends Controller
                               $request->get('contact_name'),
                               $request->get('contact_address'),
                               $request->get('contact_mobile'),
+                              $request->get('contact_email'),
                               $request->get('products')
                           )
                           ->persist();

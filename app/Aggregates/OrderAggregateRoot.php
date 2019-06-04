@@ -36,6 +36,8 @@ final class OrderAggregateRoot extends AggregateRoot
      * @param string $contactName
      * @param string $contactAddress
      * @param string $contactMobile
+     * @param string $contactEmail
+     * @param array $products
      * @return OrderAggregateRoot
      * @uses OrderProjector::onOrderCreated()
      */
@@ -44,9 +46,19 @@ final class OrderAggregateRoot extends AggregateRoot
         string $contactName,
         string $contactAddress,
         string $contactMobile,
+        string $contactEmail,
         array $products
     ): OrderAggregateRoot {
-        $this->recordThat(new OrderCreated($orderUuid, $contactName, $contactAddress, $contactMobile, $products));
+        $this->recordThat(
+            new OrderCreated(
+                $orderUuid,
+                $contactName,
+                $contactAddress,
+                $contactMobile,
+                $contactEmail,
+                $products
+            )
+        );
 
         return $this;
     }
