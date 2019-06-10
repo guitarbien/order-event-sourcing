@@ -1,0 +1,109 @@
+FORMAT: 1A
+HOST: http://order.test/
+
+# order
+
+It is a API allowing users to view orders and process them.
+
+## Orders Collection [/orders]
+
+### List all orders with conditions [GET]
+
++ Request (application/json)
+
+        {
+            "id": null,
+            "order_no": "19KK06100012345",
+            "buyer_name": null,
+            "buyer_mobile": null,
+            "buyer_email": null,
+            "receiver_name": null,
+            "receiver_mobile": null,
+        }
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": "201906100012345",
+                "order_no": "19KK06100012345",
+                "status": "PROCESSING",
+                "price": 155,
+                "buyer_name": "王大明",
+                "buyer_mobile": "0912345678",
+                "buyer_email": "ricky.bien@kkday.com",
+                "receiver_name": "王大明",
+                "receiver_mobile": "0912345678",
+                "receiver_address": "台北市忠孝東路四段563號8樓",
+                "payment": {
+                    "method": "01",
+                    "status": "success"
+                },
+                "products": [
+                    {
+                        "prod_oid": 5566,
+                        "prod_name": "卡茲爆米花黑松沙士口味",
+                        "price": 25,
+                        "qty": 2
+                    },
+                    {
+                        "prod_oid": 7788,
+                        "prod_name": "Lay's樂事樂連連義式搖烤披薩",
+                        "price": 35,
+                        "qty": 3
+                    }
+                ],
+                "created_at": "2019-06-10 10:53:49",
+                "created_by": "CUSTOMER"
+            }
+        ]
+
+### Create a new order [POST]
+
+You may create a new order using this action. It takes a JSON object containing the buyer and receiver infomation and a collection of products.
+
++ Request (application/json)
+
+        {
+            "buyer_name": "王大明",
+            "buyer_mobile": "0912345678",
+            "buyer_email": "ricky.bien@kkday.com",
+            "receiver_name": "王大明",
+            "receiver_mobile": "0912345678",
+            "receiver_address": "台北市忠孝東路四段563號8樓",
+            "payment": {
+                "method": "01",
+                "creditcard_no": "1111222233334444",
+                "cvv": 123
+            },
+            "products": [
+                {
+                    "prod_oid": 5566,
+                    "prod_name": "卡茲爆米花黑松沙士口味",
+                    "price": 25,
+                    "qty": 2
+                },
+                {
+                    "prod_oid": 7788,
+                    "prod_name": "Lay's樂事樂連連義式搖烤披薩",
+                    "price": 35,
+                    "qty": 3
+                }
+            ],
+            "created_by": "CUSTOMER"
+        }
+
++ Response 201 (application/json)
+
+
+        {
+            "meta": {
+                "status": 200000,
+                "message": "success"
+            },
+            "data": {
+                "id": "201906100012345",
+                "order_no": "19KK06100012345",
+                "created_at": "2019-06-10 10:53:49"
+            }
+        }
