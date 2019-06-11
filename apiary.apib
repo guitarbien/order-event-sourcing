@@ -1,66 +1,54 @@
 FORMAT: 1A
 HOST: http://order.test/
 
-# order
+# api-order
 
-It is a API allowing users to view orders and process them.
+訂單相關功能的API文件
 
-## Orders Collection [/orders]
+# Group Orders
+以下為Orders相關的功能
 
-### List all orders with conditions [GET]
+## Orders Collection [/api/orders]
 
-+ Request (application/json)
+### 取得單筆訂單 [GET /api/orders/{id}]
 
-        {
-            "id": null,
-            "order_no": "19KK06100012345",
-            "buyer_name": null,
-            "buyer_mobile": null,
-            "buyer_email": null,
-            "receiver_name": null,
-            "receiver_mobile": null,
-        }
+以訂單id查詢單筆訂單
+
++ Parameters
+    + id: `201906100012345` (string, required) - 訂單id
 
 + Response 200 (application/json)
+    + Attributes (OrderOutput)
 
-        [
-            {
-                "id": "201906100012345",
-                "order_no": "19KK06100012345",
-                "status": "PROCESSING",
-                "price": 155,
-                "buyer_name": "王大明",
-                "buyer_mobile": "0912345678",
-                "buyer_email": "ricky.bien@kkday.com",
-                "receiver_name": "王大明",
-                "receiver_mobile": "0912345678",
-                "receiver_address": "台北市忠孝東路四段563號8樓",
-                "payment": {
-                    "method": "01",
-                    "status": "success"
-                },
-                "products": [
-                    {
-                        "prod_oid": 5566,
-                        "prod_name": "卡茲爆米花黑松沙士口味",
-                        "price": 25,
-                        "qty": 2
-                    },
-                    {
-                        "prod_oid": 7788,
-                        "prod_name": "Lay's樂事樂連連義式搖烤披薩",
-                        "price": 35,
-                        "qty": 3
-                    }
-                ],
-                "created_at": "2019-06-10 10:53:49",
-                "created_by": "CUSTOMER"
-            }
-        ]
++ Response 422 (application/json)
+    + Attributes (422Output)
 
-### Create a new order [POST]
++ Response 404 (application/json)
+    + Attributes (404Output)
 
-You may create a new order using this action. It takes a JSON object containing the buyer and receiver infomation and a collection of products.
+### 根據條件取得多筆訂單 [GET /api/orders{?buyerName,buyerMobile,buyerEmail,receiverName,receiverMobile}]
+
+透過購買人及收件人資訊查詢符合的訂單列表，若有多個查詢條件則會以 **&&** 串連後查詢
+
++ Parameters
+    + buyerName: Kawhi Leonard (string, optional) - 購買人名稱
+    + buyerMobile: 0912345678 (string, optional) - 購買人手機
+    + buyerEmail: kawhileonard@example.com (string, optional) - 購買人email
+    + receiverName: Kawhi Leonard (string, optional) - 購買人名稱
+    + receiverMobile: 0912345678 (string, optional) - 購買人手機
+
++ Response 200 (application/json)
+    + Attributes (OrderCollectionOutput)
+
++ Response 422 (application/json)
+    + Attributes (422Output)
+
++ Response 404 (application/json)
+    + Attributes (404Output)
+
+### 建立新訂單 [POST]
+
+提供購買人、收件人、付款方式以及商品資訊成立新訂單
 
 + Request (application/json)
 
@@ -73,7 +61,7 @@ You may create a new order using this action. It takes a JSON object containing 
             "receiver_address": "台北市忠孝東路四段563號8樓",
             "payment": {
                 "method": "01",
-                "creditcard_no": "1111222233334444",
+                "creditCard_no": "1111222233334444",
                 "cvv": 123
             },
             "products": [
@@ -94,16 +82,83 @@ You may create a new order using this action. It takes a JSON object containing 
         }
 
 + Response 201 (application/json)
+    + Headers
 
+            Location: /api/order/201906100012345
 
-        {
-            "meta": {
-                "status": 200000,
-                "message": "success"
-            },
-            "data": {
-                "id": "201906100012345",
-                "order_no": "19KK06100012345",
-                "created_at": "2019-06-10 10:53:49"
+    + Body
+
+            {
+                "meta": {
+                    "status": "200201",
+                    "message": "success"
+                },
+                "data": {
+                    "id": "201906100012345",
+                    "order_no": "19KK06100012345",
+                    "created_at": "2019-06-10 10:53:49"
+                }
             }
-        }
+
++ Response 422 (application/json)
+    + Attributes (422Output)
+
+# Data Structures
+
+## OutputTemplate
+
++ meta
+    + status: 200200 (number, required) - 代碼
+    + message: success (string, required) - 說明
++ data (nullable)
+
+## 404Output (OutputTemplate)
+
++ meta
+    + status: 200404 (number, required) - 代碼
+    + message: not found (string, required) - 說明
+
+## 422Output (OutputTemplate)
+
++ meta
+    + status: 200422 (number, required) - 代碼
+    + message: `request invalid` (string, required) - 說明
+
+## OrderOutput (OutputTemplate)
+
++ data (Order)
+
+## OrderCollectionOutput (OutputTemplate)
+
++ data (array)
+    + (Order)
+
+## Order
+
++ id: 201906100012345 (string, required) - 訂單id
++ order_no: 19KK06100012345 (string, required) - 訂單編號(給人看的)
++ state (enum[number])
+    + 0 - 狀態A
+    + 1 - 狀態B
+    + 2 - 狀態C
++ price: 155 (number, required) - 訂單金額
++ buyer_name: Kawhi Leonard (string, required) - 購買人名稱
++ buyer_mobile: 0912345678 (string, required) - 購買人手機
++ buyer_email: kawhileonard@example.com (string, required) - 購買人email
++ receiver_name: Kawhi Leonard (string, required) - 收件人姓名
++ receiver_mobile: 0912345678 (string, required) - 收件人手機
++ receiver_address: 忠孝東路四段563號8樓 (string, required) - 收件人地址
++ payment
+    + method (enum[number])
+        + 0 - CreditCard
+        + 1 - Stripe
+    + state (enum[number])
+        + 0 - not pay
+        + 1 - waiting
+        + 2 - paied success
+        + 3 - paied failed
++ created_at: `2019-06-10 16:49:20` (string, required) - 建立時間
++ created_by_type (enum[number])
+    + 0 - 客人
+    + 1 - 外部串接
++ created_by: `21883277-3404-40a8-a07b-3542efc23d01` (string, required) - 建立人id
