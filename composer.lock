@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84b3b7685d243af52dd0d527acd5c3dc",
+    "content-hash": "513dd5f31d86bd95c9db50757639d514",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1400,16 +1400,16 @@
         },
         {
             "name": "spatie/laravel-event-projector",
-            "version": "2.6.0",
+            "version": "2.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-event-projector.git",
-                "reference": "8ba1f3990b39a519d5b3ff5a86f47ea212c567f4"
+                "reference": "3740b52fd10dce48842709daa24b12d781745ae2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-event-projector/zipball/8ba1f3990b39a519d5b3ff5a86f47ea212c567f4",
-                "reference": "8ba1f3990b39a519d5b3ff5a86f47ea212c567f4",
+                "url": "https://api.github.com/repos/spatie/laravel-event-projector/zipball/3740b52fd10dce48842709daa24b12d781745ae2",
+                "reference": "3740b52fd10dce48842709daa24b12d781745ae2",
                 "shasum": ""
             },
             "require": {
@@ -1469,7 +1469,7 @@
                 "sourcing",
                 "spatie"
             ],
-            "time": "2019-05-08T08:06:36+00:00"
+            "time": "2019-06-04T10:05:45+00:00"
         },
         {
             "name": "spatie/laravel-schemaless-attributes",
@@ -7906,7 +7906,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.1.3"
+        "php": "^7.1.3",
+        "ext-json": "*"
     },
     "platform-dev": []
 }
