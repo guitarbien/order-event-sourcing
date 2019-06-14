@@ -2,14 +2,16 @@
 
 namespace App\Aggregates;
 
+use App\Events\BuyerInfoUpdated;
 use App\Events\OrderArrived;
 use App\Events\OrderCreated;
 use App\Events\OrderDelivered;
 use App\Events\OrderPicked;
 use App\Events\OrderPrepared;
+use App\Events\ProductAdded;
 use App\Exceptions\CouldNotChangeStatus;
 use App\Projectors\OrderProjector;
-use App\Reactors\OrderDeliveredReactor;
+use App\Reactors\OrderCreatedReactor;
 use Spatie\EventProjector\AggregateRoot;
 
 /**
@@ -19,6 +21,15 @@ use Spatie\EventProjector\AggregateRoot;
  */
 final class OrderAggregateRoot extends AggregateRoot
 {
+    /** @var Product[] */
+    private $orderItems = [];
+
+    /** @var Buyer */
+    private $buyer;
+
+    /** @var int */
+    private $subtotal = 0;
+
     /** @var bool */
     private $picked;
 
@@ -30,44 +41,85 @@ final class OrderAggregateRoot extends AggregateRoot
 
     /** @var bool */
     private $arrived;
+    //
+    // /**
+    //  * @param Product $product
+    //  * @return OrderAggregateRoot
+    //  * @uses OrderAggregateRoot::applyProductAdded()
+    //  */
+    // private function addProduct(Product $product): OrderAggregateRoot
+    // {
+    //     $this->recordThat(new ProductAdded($product));
+    //
+    //     return $this;
+    // }
 
     /**
-     * @param string $orderUuid
-     * @param string $contactName
-     * @param string $contactAddress
-     * @param string $contactMobile
-     * @param string $contactEmail
-     * @param array $products
-     * @return OrderAggregateRoot
-     * @uses OrderProjector::onOrderCreated()
+     * @param ProductAdded $event
      */
-    public function createOrder(
-        string $orderUuid,
-        string $contactName,
-        string $contactAddress,
-        string $contactMobile,
-        string $contactEmail,
-        array $products
-    ): OrderAggregateRoot {
-        $this->recordThat(
-            new OrderCreated(
-                $orderUuid,
-                $contactName,
-                $contactAddress,
-                $contactMobile,
-                $contactEmail,
-                $products
-            )
-        );
+    public function applyProductAdded(ProductAdded $event): void
+    {
+        $this->orderItems[] = $event->product;
+    }
+    //
+    // /**
+    //  * @param Buyer $buyer
+    //  * @return OrderAggregateRoot
+    //  * @uses OrderAggregateRoot::applyBuyerInfoUpdated()
+    //  */
+    // private function updateBuyerInfo(Buyer $buyer): OrderAggregateRoot
+    // {
+    //     $this->recordThat(new BuyerInfoUpdated($buyer));
+    //
+    //     return $this;
+    // }
+
+    /**
+     * @param BuyerInfoUpdated $event
+     */
+    public function applyBuyerInfoUpdated(BuyerInfoUpdated $event): void
+    {
+        $this->buyer = $event->buyer;
+    }
+
+    /**
+     * @param Buyer $buyer
+     * @param Product ...$products
+     * @return OrderAggregateRoot
+     * @uses OrderAggregateRoot::applyOrderCreated()
+     * @uses OrderAggregateRoot::applyBuyerInfoUpdated()
+     * @uses OrderAggregateRoot::applyProductAdded()
+     * @uses OrderProjector::onOrderCreated()
+     * @uses OrderCreatedReactor::onOrderCreated()
+     */
+    public function createOrder(Buyer $buyer, Product ...$products): OrderAggregateRoot
+    {
+        collect($products)->each(function (Product $product) {
+            $this->subtotal += $product->getMoney();
+            // $this->addProduct($product);
+            $this->recordThat(new ProductAdded($product));
+        });
+
+        // $this->updateBuyerInfo($buyer)
+        $this->recordThat(new BuyerInfoUpdated($buyer))
+             ->recordThat(new OrderCreated($this->subtotal, $this->buyer, $this->orderItems));
 
         return $this;
+    }
+
+    /**
+     * @param OrderCreated $event
+     */
+    public function applyOrderCreated(OrderCreated $event): void
+    {
+        $this->subtotal = $event->subtotal;
     }
 
     /**
      * @param string $timestamp
      * @return OrderAggregateRoot
      * @uses OrderAggregateRoot::applyOrderPicked()
-     * @uses OrderProjector::onOrderPicked()
+     * @uses OrderProcessProjector::onOrderPicked()
      */
     public function pickOrder(string $timestamp): OrderAggregateRoot
     {
@@ -89,7 +141,7 @@ final class OrderAggregateRoot extends AggregateRoot
      * @param string $timestamp
      * @return OrderAggregateRoot
      * @uses OrderAggregateRoot::applyOrderPrepared()
-     * @uses OrderProjector::onOrderPrepared()
+     * @uses OrderProcessProjector::onOrderPrepared()
      */
     public function prepareOrder(string $timestamp): OrderAggregateRoot
     {
@@ -115,7 +167,7 @@ final class OrderAggregateRoot extends AggregateRoot
      * @param string $timestamp
      * @return OrderAggregateRoot
      * @uses OrderAggregateRoot::applyOrderDelivered()
-     * @uses OrderProjector::onOrderDelivered()
+     * @uses OrderProcessProjector::onOrderDelivered()
      * @uses OrderDeliveredReactor::onOrderDelivered()
      */
     public function deliverOrder(string $timestamp): OrderAggregateRoot
@@ -142,7 +194,7 @@ final class OrderAggregateRoot extends AggregateRoot
      * @param string $timestamp
      * @return OrderAggregateRoot
      * @uses OrderAggregateRoot::applyOrderArrived()
-     * @uses OrderProjector::onOrderArrived()
+     * @uses OrderProcessProjector::onOrderArrived()
      */
     public function arriveOrder(string $timestamp): OrderAggregateRoot
     {

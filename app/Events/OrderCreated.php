@@ -2,6 +2,8 @@
 
 namespace App\Events;
 
+use App\Aggregates\Buyer;
+use App\Aggregates\Product;
 use Spatie\EventProjector\ShouldBeStored;
 
 /**
@@ -10,46 +12,25 @@ use Spatie\EventProjector\ShouldBeStored;
  */
 class OrderCreated implements ShouldBeStored
 {
-    /** @var string */
-    public $orderUuid;
+    /** @var int */
+    public $subtotal;
 
-    /** @var string */
-    public $contactName;
-
-    /** @var string */
-    public $contactAddress;
-
-    /** @var string */
-    public $contactMobile;
-
-    /** @var string */
-    public $contactEmail;
-
-    /** @var array */
+    /** @var Product[] */
     public $products;
+
+    /** @var Buyer */
+    public $buyer;
 
     /**
      * OrderCreated constructor.
-     * @param string $orderUuid
-     * @param string $contactName
-     * @param string $contactAddress
-     * @param string $contactMobile
-     * @param string $contactEmail
-     * @param array $products
+     * @param int $subtotal
+     * @param Buyer $buyer
+     * @param Product ...$products
      */
-    public function __construct(
-        string $orderUuid,
-        string $contactName,
-        string $contactAddress,
-        string $contactMobile,
-        string $contactEmail,
-        array $products
-    ) {
-        $this->orderUuid      = $orderUuid;
-        $this->contactName    = $contactName;
-        $this->contactAddress = $contactAddress;
-        $this->contactMobile  = $contactMobile;
-        $this->contactEmail   = $contactEmail;
-        $this->products       = $products;
+    public function __construct(int $subtotal, Buyer $buyer, array $products)
+    {
+        $this->subtotal = $subtotal;
+        $this->products = $products;
+        $this->buyer    = $buyer;
     }
 }

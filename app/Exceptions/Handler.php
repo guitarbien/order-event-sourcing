@@ -2,11 +2,17 @@
 
 namespace App\Exceptions;
 
-use App\Http\Resources\CustomResource;
 use DomainException;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
+/**
+ * Class Handler
+ * @package App\Exceptions
+ */
 class Handler extends ExceptionHandler
 {
     /**
@@ -30,9 +36,9 @@ class Handler extends ExceptionHandler
 
     /**
      * Report or log an exception.
-     *
-     * @param  \Exception  $exception
+     * @param Exception $exception
      * @return void
+     * @throws Exception
      */
     public function report(Exception $exception)
     {
@@ -41,21 +47,30 @@ class Handler extends ExceptionHandler
 
     /**
      * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  Exception  $exception
+     * @return Response
      */
     public function render($request, Exception $exception)
     {
+        $code = 500;
+        $message = $exception->getMessage();
         if ($exception instanceof DomainException) {
-            return response()->json([
-                'status' => 'not ok',
-                'code' => $exception->getCode(),
-                'message' => $exception->getMessage(),
-            ], 422);
+            $code = 422;
         }
 
-        return parent::render($request, $exception);
+        if ($exception instanceof ValidationException) {
+            $message = collect($exception->errors())->map(function ($item, $key) {
+                return $key . ' ' . $item[0];
+            })->implode(', ');
+
+            $code = 422;
+        }
+
+        return response()->json([
+            'status'  => 'error',
+            'code'    => $exception->getCode(),
+            'message' => $message,
+        ], $code);
     }
 }

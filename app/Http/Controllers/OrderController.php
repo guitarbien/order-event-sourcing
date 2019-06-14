@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Aggregates\OrderAggregateRoot;
+use App\Http\Requests\NewOrderRequest;
 use App\Http\Resources\CustomResource;
 use App\Order;
 use Illuminate\Http\JsonResponse;
@@ -33,28 +34,22 @@ class OrderController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param NewOrderRequest $request
      * @return JsonResponse
      * @uses OrderAggregateRoot::createOrder()
      */
-    public function store(Request $request): JsonResponse
+    public function store(NewOrderRequest $request): JsonResponse
     {
-        $orderUuid = (string) Str::uuid();
+        $uuid = (string) Str::uuid();
 
-        OrderAggregateRoot::retrieve($orderUuid)
-                          ->createOrder(
-                              $orderUuid,
-                              $request->get('contact_name'),
-                              $request->get('contact_address'),
-                              $request->get('contact_mobile'),
-                              $request->get('contact_email'),
-                              $request->get('products')
-                          )
-                          ->persist();
+        $orderAggregateRoot = OrderAggregateRoot::retrieve($uuid);
+
+        $orderAggregateRoot->createOrder($request->getBuyer(), ...$request->getProducts())
+                           ->persist();
 
         return (new CustomResource([
             'status'    => 'ok',
-            'orderUuid' => $orderUuid,
+            'orderUuid' => $uuid,
         ]))->response()->setStatusCode(201);
     }
 
