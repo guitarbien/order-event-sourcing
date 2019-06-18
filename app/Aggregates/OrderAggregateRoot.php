@@ -41,18 +41,6 @@ final class OrderAggregateRoot extends AggregateRoot
 
     /** @var bool */
     private $arrived;
-    //
-    // /**
-    //  * @param Product $product
-    //  * @return OrderAggregateRoot
-    //  * @uses OrderAggregateRoot::applyProductAdded()
-    //  */
-    // private function addProduct(Product $product): OrderAggregateRoot
-    // {
-    //     $this->recordThat(new ProductAdded($product));
-    //
-    //     return $this;
-    // }
 
     /**
      * @param ProductAdded $event
@@ -61,18 +49,6 @@ final class OrderAggregateRoot extends AggregateRoot
     {
         $this->orderItems[] = $event->product;
     }
-    //
-    // /**
-    //  * @param Buyer $buyer
-    //  * @return OrderAggregateRoot
-    //  * @uses OrderAggregateRoot::applyBuyerInfoUpdated()
-    //  */
-    // private function updateBuyerInfo(Buyer $buyer): OrderAggregateRoot
-    // {
-    //     $this->recordThat(new BuyerInfoUpdated($buyer));
-    //
-    //     return $this;
-    // }
 
     /**
      * @param BuyerInfoUpdated $event
@@ -96,11 +72,9 @@ final class OrderAggregateRoot extends AggregateRoot
     {
         collect($products)->each(function (Product $product) {
             $this->subtotal += $product->getMoney();
-            // $this->addProduct($product);
             $this->recordThat(new ProductAdded($product));
         });
 
-        // $this->updateBuyerInfo($buyer)
         $this->recordThat(new BuyerInfoUpdated($buyer))
              ->recordThat(new OrderCreated($this->subtotal, $this->buyer, $this->orderItems));
 
