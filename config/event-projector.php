@@ -7,7 +7,7 @@ return [
      * will be registered to Projectionist automatically.
      */
     'auto_discover_projectors_and_reactors' => [
-        app_path(),
+        // app_path(),
     ],
 
     /*
@@ -16,7 +16,8 @@ return [
      * Projectors can be registered in this array or a service provider.
      */
     'projectors' => [
-        // App\Projectors\OrderProjector::class,
+        App\Projectors\OrderProjector::class,
+        App\Projectors\OrderProcessProjector::class,
     ],
 
     /*
@@ -25,7 +26,8 @@ return [
      * Reactors can be registered in this array or a service provider.
      */
     'reactors' => [
-        // App\Reactors\YourReactor::class
+        App\Reactors\OrderCreatedReactor::class,
+        App\Reactors\OrderDeliveredReactor::class,
     ],
 
     /*
