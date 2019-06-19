@@ -25,18 +25,21 @@ final class OrderProjector implements QueuedProjector
      */
     public function onOrderCreated(OrderCreated $event, string $aggregateUuid)
     {
-        $qty = count($event->products);
-        $products = collect($event->products)->map(function ($product) use ($aggregateUuid, $qty) {
-            return [
-                'order_id'   => $aggregateUuid,
-                'prod_oid'   => $product['prodOid'],
-                'prod_name'  => $product['name'],
-                'qty'        => $qty,
-                'price_unit' => $product['money'],
-                'price_sum'  => $product['money'] * $qty,
-                'created_at' => now(),
-            ];
-        })->all();
+        $products = collect($event->products)
+            ->groupBy('prodOid')
+            ->map(function ($productGroup) use ($aggregateUuid) {
+                $qty = count($productGroup);
+
+                return [
+                    'order_id'   => $aggregateUuid,
+                    'prod_oid'   => $productGroup[0]['prodOid'],
+                    'prod_name'  => $productGroup[0]['name'],
+                    'qty'        => $qty,
+                    'price_unit' => $productGroup[0]['money'],
+                    'price_sum'  => $productGroup[0]['money'] * $qty,
+                    'created_at' => now(),
+                ];
+            })->all();
 
         DB::transaction(function () use ($event, $products, $aggregateUuid) {
             Order::create([
