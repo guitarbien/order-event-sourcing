@@ -66,16 +66,33 @@ class NewOrderRequest extends FormRequest
 
         return collect($this->get('products'))->map(function ($item) use ($productInfoMap) {
             return Collection::times($item['qty'], function () use ($item, $productInfoMap) {
-                return Product::create(
+                return $this->createProduct(
                     $item['prod_oid'],
                     $productInfoMap[$item['prod_oid']]['name'],
-                    Price::create(
-                        new Currency($productInfoMap[$item['prod_oid']]['currency']),
-                        $productInfoMap[$item['prod_oid']]['unitPrice']
-                    )
+                    $productInfoMap[$item['prod_oid']]['currency'],
+                    $productInfoMap[$item['prod_oid']]['unitPrice']
                 );
             })->all();
         })->collapse()
           ->all();
+    }
+
+    /**
+     * @param int $prodOid
+     * @param string $prodName
+     * @param string $currency
+     * @param int $unitPrice
+     * @return Product
+     */
+    private function createProduct(int $prodOid, string $prodName, string $currency, int $unitPrice): Product
+    {
+        return Product::create(
+            $prodOid,
+            $prodName,
+            Price::create(
+                new Currency($currency),
+                $unitPrice
+            )
+        );
     }
 }
