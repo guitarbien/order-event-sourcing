@@ -9,10 +9,10 @@ namespace App\Aggregates;
 class Price
 {
     /** @var Currency */
-    private $currency;
+    public $currency;
 
     /** @var int */
-    private $amount;
+    public $amount;
 
     /**
      * Price constructor.

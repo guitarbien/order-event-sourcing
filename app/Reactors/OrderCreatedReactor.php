@@ -2,7 +2,7 @@
 
 namespace App\Reactors;
 
-use App\Events\OrderCreated;
+use App\Events\OrderCreatedV2;
 use App\Order;
 use Illuminate\Support\Facades\Mail;
 use Spatie\EventProjector\EventHandlers\EventHandler;
@@ -17,10 +17,10 @@ final class OrderCreatedReactor implements EventHandler
     use HandlesEvents;
 
     /**
-     * @param OrderCreated $event
+     * @param OrderCreatedV2 $event
      * @param string $aggregateUuid
      */
-    public function onOrderCreated(OrderCreated $event, string $aggregateUuid)
+    public function onOrderCreated(OrderCreatedV2 $event, string $aggregateUuid)
     {
         $order = Order::find($aggregateUuid);
 

@@ -44,7 +44,7 @@ class OrderController extends Controller
 
         $orderAggregateRoot = OrderAggregateRoot::retrieve($uuid);
 
-        $orderAggregateRoot->createOrder($request->getBuyer(), ...$request->getProducts())
+        $orderAggregateRoot->createOrder($request->getBuyer(), $request->get('ip'), ...$request->getProducts())
                            ->persist();
 
         return (new CustomResource([

@@ -4,7 +4,7 @@ namespace App\Aggregates;
 
 use App\Events\BuyerInfoUpdated;
 use App\Events\OrderArrived;
-use App\Events\OrderCreated;
+use App\Events\OrderCreatedV2;
 use App\Events\OrderDelivered;
 use App\Events\OrderPicked;
 use App\Events\OrderPrepared;
@@ -13,6 +13,7 @@ use App\Exceptions\CouldNotChangeStatus;
 use App\Projectors\OrderProjector;
 use App\Reactors\OrderCreatedReactor;
 use Spatie\EventProjector\AggregateRoot;
+use Spatie\EventProjector\ShouldBeStored;
 
 /**
  * Class OrderAggregateRoot
@@ -29,6 +30,9 @@ final class OrderAggregateRoot extends AggregateRoot
 
     /** @var int */
     private $subtotal = 0;
+
+    /** @var Currency */
+    private $currency;
 
     /** @var bool */
     private $picked;
@@ -60,33 +64,44 @@ final class OrderAggregateRoot extends AggregateRoot
 
     /**
      * @param Buyer $buyer
+     * @param string $requestIp
      * @param Product ...$products
      * @return OrderAggregateRoot
-     * @uses OrderAggregateRoot::applyOrderCreated()
+     * @uses OrderAggregateRoot::applyOrderCreatedV2()
      * @uses OrderAggregateRoot::applyBuyerInfoUpdated()
      * @uses OrderAggregateRoot::applyProductAdded()
      * @uses OrderProjector::onOrderCreated()
      * @uses OrderCreatedReactor::onOrderCreated()
      */
-    public function createOrder(Buyer $buyer, Product ...$products): OrderAggregateRoot
+    public function createOrder(Buyer $buyer, string $requestIp, Product ...$products): OrderAggregateRoot
     {
         collect($products)->each(function (Product $product) {
-            $this->subtotal += $product->getMoney();
+            $this->subtotal += $product->getUnitPrice()->getAmount();
             $this->recordThat(new ProductAdded($product));
         });
 
+        $this->currency = $products[0]->getUnitPrice()->getCurrency();
+
         $this->recordThat(new BuyerInfoUpdated($buyer))
-             ->recordThat(new OrderCreated($this->subtotal, $this->buyer, $this->orderItems));
+             ->recordThat(
+                 new OrderCreatedV2(
+                     Price::create($products[0]->getUnitPrice()->getCurrency(), $this->subtotal),
+                     $this->orderItems,
+                     $this->buyer,
+                     $requestIp
+                 )
+             );
 
         return $this;
     }
 
     /**
-     * @param OrderCreated $event
+     * @param OrderCreatedV2 $event
      */
-    public function applyOrderCreated(OrderCreated $event): void
+    public function applyOrderCreatedV2(OrderCreatedV2 $event): void
     {
-        $this->subtotal = $event->subtotal;
+        $this->subtotal = $event->subtotal->getAmount();
+        $this->currency = $event->subtotal->getCurrency();
     }
 
     /**

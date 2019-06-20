@@ -64,12 +64,4 @@ class Product
     {
         return $this->unitPrice;
     }
-
-    /**
-     * @return int
-     */
-    public function getMoney(): int
-    {
-        return $this->unitPrice->getAmount();
-    }
 }
