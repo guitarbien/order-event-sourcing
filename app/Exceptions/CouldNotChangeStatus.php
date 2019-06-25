@@ -10,6 +10,15 @@ use DomainException;
  */
 class CouldNotChangeStatus extends DomainException
 {
+
+    /**
+     * @return CouldNotChangeStatus
+     */
+    public static function orderNotFound(): self
+    {
+        return new static('could not set order status because order not found');
+    }
+
     /**
      * @return CouldNotChangeStatus
      */

@@ -6,6 +6,7 @@ use App\Events\OrderArrived;
 use App\Events\OrderDelivered;
 use App\Events\OrderPicked;
 use App\Events\OrderPrepared;
+use App\Exceptions\CouldNotChangeStatus;
 use App\Order;
 use Spatie\EventProjector\Projectors\ProjectsEvents;
 use Spatie\EventProjector\Projectors\QueuedProjector;
@@ -25,7 +26,14 @@ final class OrderProcessProjector implements QueuedProjector
     public function onOrderPicked(OrderPicked $event, string $aggregateUuid)
     {
         $order = Order::uuid($aggregateUuid);
-        $order->pickedAt($event->pickedAt);
+
+        if ($order === null) {
+            throw CouldNotChangeStatus::orderNotFound();
+        }
+
+        if (!$order->picked) {
+            $order->pickedAt($event->pickedAt);
+        }
     }
 
     /**
@@ -35,7 +43,14 @@ final class OrderProcessProjector implements QueuedProjector
     public function onOrderPrepared(OrderPrepared $event, string $aggregateUuid)
     {
         $order = Order::uuid($aggregateUuid);
-        $order->preparedAt($event->preparedAt);
+
+        if ($order === null) {
+            throw CouldNotChangeStatus::orderNotFound();
+        }
+
+        if (!$order->prepared) {
+            $order->preparedAt($event->preparedAt);
+        }
     }
 
     /**
@@ -45,7 +60,14 @@ final class OrderProcessProjector implements QueuedProjector
     public function onOrderDelivered(OrderDelivered $event, string $aggregateUuid)
     {
         $order = Order::uuid($aggregateUuid);
-        $order->deliveredAt($event->deliveredAt);
+
+        if ($order === null) {
+            throw CouldNotChangeStatus::orderNotFound();
+        }
+
+        if (!$order->delivered) {
+            $order->deliveredAt($event->deliveredAt);
+        }
     }
 
     /**
@@ -55,6 +77,13 @@ final class OrderProcessProjector implements QueuedProjector
     public function onOrderArrived(OrderArrived $event, string $aggregateUuid)
     {
         $order = Order::uuid($aggregateUuid);
-        $order->arrivedAt($event->arrivedAt);
+
+        if ($order === null) {
+            throw CouldNotChangeStatus::orderNotFound();
+        }
+
+        if (!$order->arrived) {
+            $order->arrivedAt($event->arrivedAt);
+        }
     }
 }
