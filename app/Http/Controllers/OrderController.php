@@ -54,21 +54,21 @@ class OrderController extends Controller
     }
 
     /**
+     * @param string $id
+     * @param Request $request
+     * @return JsonResponse
+     * @uses OrderAggregateRoot::arriveOrder()
      * @uses OrderAggregateRoot::pickOrder()
      * @uses OrderAggregateRoot::prepareOrder()
      * @uses OrderAggregateRoot::deliverOrder()
-     * @uses OrderAggregateRoot::arriveOrder()
-     * @param Order $order
-     * @param Request $request
-     * @return JsonResponse
      */
-    public function update(Order $order, Request $request): JsonResponse
+    public function update(string $id, Request $request): JsonResponse
     {
         $action = $request->get('action');
 
         $actionMethod = self::ACTION_MAPPING[$action];
 
-        OrderAggregateRoot::retrieve($order->id)
+        OrderAggregateRoot::retrieve($id)
                           ->{$actionMethod}($request->get('timestamp'))
                           ->persist();
 
