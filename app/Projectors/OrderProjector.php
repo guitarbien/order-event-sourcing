@@ -25,6 +25,10 @@ final class OrderProjector implements QueuedProjector
      */
     public function onOrderCreated(OrderCreated $event, string $aggregateUuid)
     {
+        if (Order::uuid($aggregateUuid) !== null) {
+            return;
+        }
+
         $products = collect($event->products)
             ->groupBy('prodOid')
             ->map(function ($productGroup) use ($aggregateUuid) {

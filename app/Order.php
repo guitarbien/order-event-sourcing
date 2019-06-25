@@ -63,9 +63,9 @@ class Order extends Model
 
     /**
      * @param string $aggregateUuid
-     * @return Order
+     * @return Order|null
      */
-    public static function uuid(string $aggregateUuid): Order
+    public static function uuid(string $aggregateUuid): ?Order
     {
         return Order::find($aggregateUuid);
     }
