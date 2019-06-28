@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Aggregates\OrderAggregateRoot;
 use App\Http\Requests\NewOrderRequest;
 use App\Http\Resources\CustomResource;
-use App\Order;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
