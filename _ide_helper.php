@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.8.16 on 2019-06-17 16:51:29.
+ * Generated for Laravel 5.8.16 on 2019-06-26 15:14:41.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -7889,31 +7889,6 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Get the queue or return the default.
-         *
-         * @param string|null $queue
-         * @return string 
-         * @static 
-         */ 
-        public static function getQueue($queue)
-        {
-                        /** @var \Illuminate\Queue\SqsQueue $instance */
-                        return $instance->getQueue($queue);
-        }
-        
-        /**
-         * Get the underlying SQS instance.
-         *
-         * @return \Aws\Sqs\SqsClient 
-         * @static 
-         */ 
-        public static function getSqs()
-        {
-                        /** @var \Illuminate\Queue\SqsQueue $instance */
-                        return $instance->getSqs();
-        }
-        
-        /**
          * Get the retry delay for an object-based queue handler.
          *
          * @param mixed $job
@@ -7923,7 +7898,7 @@ namespace Illuminate\Support\Facades {
         public static function getJobRetryDelay($job)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-                        /** @var \Illuminate\Queue\SqsQueue $instance */
+                        /** @var \Illuminate\Queue\SyncQueue $instance */
                         return $instance->getJobRetryDelay($job);
         }
         
@@ -7937,7 +7912,7 @@ namespace Illuminate\Support\Facades {
         public static function getJobExpiration($job)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-                        /** @var \Illuminate\Queue\SqsQueue $instance */
+                        /** @var \Illuminate\Queue\SyncQueue $instance */
                         return $instance->getJobExpiration($job);
         }
         
@@ -7951,7 +7926,7 @@ namespace Illuminate\Support\Facades {
         public static function createPayloadUsing($callback)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-                        \Illuminate\Queue\SqsQueue::createPayloadUsing($callback);
+                        \Illuminate\Queue\SyncQueue::createPayloadUsing($callback);
         }
         
         /**
@@ -7964,7 +7939,7 @@ namespace Illuminate\Support\Facades {
         public static function setContainer($container)
         {
             //Method inherited from \Illuminate\Queue\Queue            
-                        /** @var \Illuminate\Queue\SqsQueue $instance */
+                        /** @var \Illuminate\Queue\SyncQueue $instance */
                         $instance->setContainer($container);
         }
          
