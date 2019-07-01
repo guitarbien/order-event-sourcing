@@ -18,6 +18,12 @@
         "shiftonelabs/laravel-sqs-fifo-queue": "^1.1",
         "spatie/laravel-event-projector": "^2.0.0"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "git@mygithub.com:guitarbien/laravel-event-projector.git"
+        }
+    ],
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
         "behat/behat": "^3.5",
