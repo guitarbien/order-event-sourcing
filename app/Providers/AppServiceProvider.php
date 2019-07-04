@@ -2,8 +2,14 @@
 
 namespace App\Providers;
 
+use App\Observers\StoredEventObserver;
 use Illuminate\Support\ServiceProvider;
+use Spatie\EventProjector\Models\StoredEvent;
 
+/**
+ * Class AppServiceProvider
+ * @package App\Providers
+ */
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -25,6 +31,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        StoredEvent::observe(StoredEventObserver::class);
     }
 }
