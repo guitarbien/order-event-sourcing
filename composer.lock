@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a2941267bbb9308e9b6c2442f81aed1a",
+    "content-hash": "49d5535f9f7acfd3147271941366722d",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.103.2",
+            "version": "3.104.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "364192641e880dd0a5c9f1a5852c425709e7159f"
+                "reference": "295706ab2134bf842837fa0b0162ff3aef8b0aa4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/364192641e880dd0a5c9f1a5852c425709e7159f",
-                "reference": "364192641e880dd0a5c9f1a5852c425709e7159f",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/295706ab2134bf842837fa0b0162ff3aef8b0aa4",
+                "reference": "295706ab2134bf842837fa0b0162ff3aef8b0aa4",
                 "shasum": ""
             },
             "require": {
@@ -87,7 +87,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-07-01T18:26:54+00:00"
+            "time": "2019-07-03T18:08:50+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -737,16 +737,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.8.26",
+            "version": "v5.8.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "1d8ec9afdedc79314c18715056b8143d7e1fac31"
+                "reference": "f1dccffb96f614895393e27e4667105a05407af5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/1d8ec9afdedc79314c18715056b8143d7e1fac31",
-                "reference": "1d8ec9afdedc79314c18715056b8143d7e1fac31",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f1dccffb96f614895393e27e4667105a05407af5",
+                "reference": "f1dccffb96f614895393e27e4667105a05407af5",
                 "shasum": ""
             },
             "require": {
@@ -880,7 +880,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-06-25T16:20:51+00:00"
+            "time": "2019-07-02T13:43:47+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -1930,11 +1930,17 @@
         },
         {
             "name": "spatie/laravel-event-projector",
-            "version": "dev-endingTo_concurrency",
+            "version": "2.6.3",
             "source": {
                 "type": "git",
-                "url": "git@mygithub.com:guitarbien/laravel-event-projector.git",
-                "reference": "04118fc6ba474bb0006db8bcac964f6ea0b3dd50"
+                "url": "https://github.com/spatie/laravel-event-projector.git",
+                "reference": "3433cb365e2b4af3546c03db21d2dc40f8af5a03"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-event-projector/zipball/3433cb365e2b4af3546c03db21d2dc40f8af5a03",
+                "reference": "3433cb365e2b4af3546c03db21d2dc40f8af5a03",
+                "shasum": ""
             },
             "require": {
                 "illuminate/console": "5.8.*",
@@ -1970,22 +1976,7 @@
                     "Spatie\\EventProjector\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Spatie\\EventProjector\\Tests\\": "tests"
-                },
-                "files": [
-                    "tests/TestClasses/AutoDiscoverEventHandlers/functions.php"
-                ]
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ],
-                "test-coverage": [
-                    "vendor/bin/phpunit --coverage-html coverage"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2008,7 +1999,7 @@
                 "sourcing",
                 "spatie"
             ],
-            "time": "2019-07-02T08:06:36+00:00"
+            "time": "2019-06-16T14:25:54+00:00"
         },
         {
             "name": "spatie/laravel-schemaless-attributes",
@@ -8750,18 +8741,9 @@
             "time": "2018-12-25T11:19:39+00:00"
         }
     ],
-    "aliases": [
-        {
-            "alias": "2.6.x-dev",
-            "alias_normalized": "2.6.9999999.9999999-dev",
-            "version": "dev-endingTo_concurrency",
-            "package": "spatie/laravel-event-projector"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "spatie/laravel-event-projector": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
