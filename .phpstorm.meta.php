@@ -5,7 +5,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2019-07-04 11:53:50.
+    * Generated on 2019-07-09 09:42:00.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -72,6 +72,7 @@ namespace PHPSTORM_META {
         'command.event.make' => \Illuminate\Foundation\Console\EventMakeCommand::class,
         'command.exception.make' => \Illuminate\Foundation\Console\ExceptionMakeCommand::class,
         'command.factory.make' => \Illuminate\Database\Console\Factories\FactoryMakeCommand::class,
+        'command.generate:diagram' => \BeyondCode\ErdGenerator\GenerateDiagramCommand::class,
         'command.ide-helper.eloquent' => \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
@@ -232,6 +233,7 @@ namespace PHPSTORM_META {
         'command.event.make' => \Illuminate\Foundation\Console\EventMakeCommand::class,
         'command.exception.make' => \Illuminate\Foundation\Console\ExceptionMakeCommand::class,
         'command.factory.make' => \Illuminate\Database\Console\Factories\FactoryMakeCommand::class,
+        'command.generate:diagram' => \BeyondCode\ErdGenerator\GenerateDiagramCommand::class,
         'command.ide-helper.eloquent' => \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
@@ -392,6 +394,7 @@ namespace PHPSTORM_META {
         'command.event.make' => \Illuminate\Foundation\Console\EventMakeCommand::class,
         'command.exception.make' => \Illuminate\Foundation\Console\ExceptionMakeCommand::class,
         'command.factory.make' => \Illuminate\Database\Console\Factories\FactoryMakeCommand::class,
+        'command.generate:diagram' => \BeyondCode\ErdGenerator\GenerateDiagramCommand::class,
         'command.ide-helper.eloquent' => \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
@@ -552,6 +555,7 @@ namespace PHPSTORM_META {
         'command.event.make' => \Illuminate\Foundation\Console\EventMakeCommand::class,
         'command.exception.make' => \Illuminate\Foundation\Console\ExceptionMakeCommand::class,
         'command.factory.make' => \Illuminate\Database\Console\Factories\FactoryMakeCommand::class,
+        'command.generate:diagram' => \BeyondCode\ErdGenerator\GenerateDiagramCommand::class,
         'command.ide-helper.eloquent' => \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
@@ -712,6 +716,7 @@ namespace PHPSTORM_META {
         'command.event.make' => \Illuminate\Foundation\Console\EventMakeCommand::class,
         'command.exception.make' => \Illuminate\Foundation\Console\ExceptionMakeCommand::class,
         'command.factory.make' => \Illuminate\Database\Console\Factories\FactoryMakeCommand::class,
+        'command.generate:diagram' => \BeyondCode\ErdGenerator\GenerateDiagramCommand::class,
         'command.ide-helper.eloquent' => \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
@@ -872,6 +877,7 @@ namespace PHPSTORM_META {
         'command.event.make' => \Illuminate\Foundation\Console\EventMakeCommand::class,
         'command.exception.make' => \Illuminate\Foundation\Console\ExceptionMakeCommand::class,
         'command.factory.make' => \Illuminate\Database\Console\Factories\FactoryMakeCommand::class,
+        'command.generate:diagram' => \BeyondCode\ErdGenerator\GenerateDiagramCommand::class,
         'command.ide-helper.eloquent' => \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
@@ -1032,6 +1038,7 @@ namespace PHPSTORM_META {
         'command.event.make' => \Illuminate\Foundation\Console\EventMakeCommand::class,
         'command.exception.make' => \Illuminate\Foundation\Console\ExceptionMakeCommand::class,
         'command.factory.make' => \Illuminate\Database\Console\Factories\FactoryMakeCommand::class,
+        'command.generate:diagram' => \BeyondCode\ErdGenerator\GenerateDiagramCommand::class,
         'command.ide-helper.eloquent' => \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,

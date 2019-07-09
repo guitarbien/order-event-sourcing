@@ -22,6 +22,7 @@
         "barryvdh/laravel-ide-helper": "^2.6",
         "behat/behat": "^3.5",
         "beyondcode/laravel-dump-server": "^1.0",
+        "beyondcode/laravel-er-diagram-generator": "^1.2",
         "doctrine/dbal": "^2.9",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
